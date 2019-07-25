@@ -13,7 +13,7 @@ import (
 // GetAllSurNames from db
 func GetAllSurNames(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	SurNames := []model.SurName{}
-	db.Find(&SurNames)
+	db.Order("count desc").Find(&SurNames)
 	respondJSON(w, http.StatusOK, SurNames)
 }
 

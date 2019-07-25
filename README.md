@@ -88,7 +88,24 @@ VOCATIVE_DB_NAME=vocative_db_test ./vocative-api
 * search for firstnames based on part of name and gender
 
 ```bash
-curl 'localhost:8080/vocative/firstnames/search?gender=male&name=Jan' | jq
+curl 'localhost:8090/vocative/surnames/search?gender=male&name=Skupa' | jq
+```
+
+```json
+[
+  {
+    "name": "Skůpa",
+    "vocative": "Skůpo",
+    "count": 63,
+    "gender": "male"
+  },
+  {
+    "name": "Skupa",
+    "vocative": "Skupo",
+    "count": 42,
+    "gender": "male"
+  }
+]
 ```
 
 * get all firstnames
@@ -97,14 +114,84 @@ curl 'localhost:8080/vocative/firstnames/search?gender=male&name=Jan' | jq
 curl 'localhost:8090/vocative/firstnames' | jq
 ```
 
+```json
+[
+  {
+    "name": "Marie",
+    "vocative": "Marie",
+    "count": 316559,
+    "gender": "female"
+  },
+  {
+    "name": "Jiří",
+    "vocative": "Jiří",
+    "count": 315369,
+    "gender": "male"
+  },
+  {
+    "name": "Jan",
+    "vocative": "Jane",
+    "count": 295627,
+    "gender": "male"
+  },
+  ...
+]
+```
+
 * get vocative for a name
 
 ```bash
-curl 'localhost:8080/vocative/firstnames/Jan' | jq
+curl 'localhost:8090/vocative/firstnames/Jan' | jq
+```
+
+```json
+[
+  {
+    "name": "Jan",
+    "vocative": "Jane",
+    "count": 295627,
+    "gender": "male"
+  },
+  {
+    "name": "Jan",
+    "vocative": "Jan",
+    "count": 1,
+    "gender": "female"
+  }
+]
 ```
 
 * get vocatives for name (firstname, surname and gender)
 
 ```bash
 curl 'localhost:8090/vocative?firstname=Jindrich&surname=Skupa&gender=male&limit=2' | jq
+```
+
+```json
+[
+  {
+    "name": "Jindřich Skůpa",
+    "vocative": "Jindřichu Skůpo",
+    "count": 28678,
+    "gender": "male"
+  },
+  {
+    "name": "Jindřich Skupa",
+    "vocative": "Jindřichu Skupo",
+    "count": 28657,
+    "gender": "male"
+  },
+  {
+    "name": "Jindrich Skůpa",
+    "vocative": "Jindrichu Skůpo",
+    "count": 65,
+    "gender": "male"
+  },
+  {
+    "name": "Jindrich Skupa",
+    "vocative": "Jindrichu Skupo",
+    "count": 44,
+    "gender": "male"
+  }
+]
 ```

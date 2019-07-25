@@ -13,7 +13,7 @@ import (
 // GetAllFirstNames from db
 func GetAllFirstNames(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	FirstNames := []model.FirstName{}
-	db.Find(&FirstNames)
+	db.Order("count desc").Find(&FirstNames)
 	respondJSON(w, http.StatusOK, FirstNames)
 }
 
