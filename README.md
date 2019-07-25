@@ -88,19 +88,19 @@ VOCATIVE_DB_NAME=vocative_db_test ./vocative-api
 * search for firstnames based on part of name and gender
 
 ```bash
-curl 'localhost:8080/vocative/firstsnames/search?gender=male&name=Jan' | jq
+curl 'localhost:8080/vocative/firstnames/search?gender=male&name=Jan' | jq
 ```
 
 * get all firstnames
 
 ```bash
-curl 'localhost:8080/vocative/firstsnames' | jq
+curl 'localhost:8090/vocative/firstnames' | jq
 ```
 
 * get vocative for a name
 
 ```bash
-curl 'localhost:8080/vocative/firstsnames/Jan' | jq
+curl 'localhost:8080/vocative/firstnames/Jan' | jq
 ```
 
 * get vocatives for name (firstname, surname and gender)
