@@ -1,0 +1,432 @@
+openapi: 3.0.0
+
+info:
+  version: "1.0.0"
+  title: "Vocative API"
+  description: "API Specification for Vocative API"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    name: "Jindrich Skupa"
+    email: "jindrich.skupa@gmail.com"
+  license:
+    name: "MIT"
+    url: "https://opensource.org/licenses/MIT"
+
+servers:
+  - url: https://ruian.jindrichskupa.cz/
+    description: development server
+
+security:
+  - ApiTokenAuth: []
+
+paths:
+  /healtz:
+    get:
+      summary: "HealthCheck"
+      operationId: "Status"
+      responses:
+        200:
+          $ref: '#/components/responses/Status'
+  /vocative:
+    get:
+      summary: "Search for whole vocative"
+      operationId: "GetVocativeBySearch"
+      parameters:
+        - $ref: "#/components/parameters/FirstName"
+        - $ref: "#/components/parameters/SurName"
+        - $ref: "#/components/parameters/Gender"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        200:
+          $ref: '#/components/responses/Vocatives'
+        400:
+          $ref: "#/components/responses/BadRequest"
+        401:
+          $ref: "#/components/responses/NotAuthorized"
+        403:
+          $ref: "#/components/responses/Forbidden"
+        404:
+          $ref: "#/components/responses/NotFound"
+        500:
+          $ref: "#/components/responses/InternalError"
+      tags:
+        - "Firstname"
+        - "Surname"
+        - default
+
+  /vocative/firstnames:
+    get:
+      summary: "List of FirstNames"
+      operationId: "GetFirstNamesList"
+      responses:
+        200:
+          $ref: '#/components/responses/FirstNames'
+        400:
+          $ref: "#/components/responses/BadRequest"
+        401:
+          $ref: "#/components/responses/NotAuthorized"
+        403:
+          $ref: "#/components/responses/Forbidden"
+        404:
+          $ref: "#/components/responses/NotFound"
+        500:
+          $ref: "#/components/responses/InternalError"
+      tags:
+        - "Firstname"
+
+  /vocative/firstnames/search:
+    get:
+      summary: "Search for FirstNames"
+      operationId: "GetFirstNamesBySearch"
+      parameters:
+        - $ref: "#/components/parameters/Name"
+        - $ref: "#/components/parameters/Gender"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        200:
+          $ref: '#/components/responses/FirstNames'
+        400:
+          $ref: "#/components/responses/BadRequest"
+        401:
+          $ref: "#/components/responses/NotAuthorized"
+        403:
+          $ref: "#/components/responses/Forbidden"
+        404:
+          $ref: "#/components/responses/NotFound"
+        500:
+          $ref: "#/components/responses/InternalError"
+      tags:
+        - "Firstname"
+
+  /vocative/firstnames/{name}:
+    get:
+      summary: "Firstname by name"
+      operationId: "GetFirstnameByName"
+      parameters:
+        - $ref: "#/components/parameters/Name"
+      responses:
+        200:
+          $ref: '#/components/responses/FirstNames'
+        400:
+          $ref: "#/components/responses/BadRequest"
+        401:
+          $ref: "#/components/responses/NotAuthorized"
+        403:
+          $ref: "#/components/responses/Forbidden"
+        404:
+          $ref: "#/components/responses/NotFound"
+        500:
+          $ref: "#/components/responses/InternalError"
+      tags:
+        - "Firstname"
+
+  /vocative/surnames:
+    get:
+      summary: "List of SurNames"
+      operationId: "GetSurNamesList"
+      responses:
+        200:
+          $ref: '#/components/responses/SurNames'
+        400:
+          $ref: "#/components/responses/BadRequest"
+        401:
+          $ref: "#/components/responses/NotAuthorized"
+        403:
+          $ref: "#/components/responses/Forbidden"
+        404:
+          $ref: "#/components/responses/NotFound"
+        500:
+          $ref: "#/components/responses/InternalError"
+      tags:
+        - "Surname"
+
+  /vocative/surnames/search:
+    get:
+      summary: "Search for SurNames"
+      operationId: "GetSurNamesBySearch"
+      parameters:
+        - $ref: "#/components/parameters/Name"
+        - $ref: "#/components/parameters/Gender"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        200:
+          $ref: '#/components/responses/SurNames'
+        400:
+          $ref: "#/components/responses/BadRequest"
+        401:
+          $ref: "#/components/responses/NotAuthorized"
+        403:
+          $ref: "#/components/responses/Forbidden"
+        404:
+          $ref: "#/components/responses/NotFound"
+        500:
+          $ref: "#/components/responses/InternalError"
+      tags:
+        - "Surname"
+        
+  /vocative/surnames/{name}:
+    get:
+      summary: "Surname by name"
+      operationId: "GetSurnameByName"
+      parameters:
+        - $ref: "#/components/parameters/Name"
+      responses:
+        200:
+          $ref: '#/components/responses/SurNames'
+        400:
+          $ref: "#/components/responses/BadRequest"
+        401:
+          $ref: "#/components/responses/NotAuthorized"
+        403:
+          $ref: "#/components/responses/Forbidden"
+        404:
+          $ref: "#/components/responses/NotFound"
+        500:
+          $ref: "#/components/responses/InternalError"
+      tags:
+        - "Surname"
+
+components:
+  securitySchemes:
+    ApiTokenAuth:
+      type: "apiKey"
+      in: "header"
+      name: "X-Api-Token"
+  parameters:
+    xApiToken:
+      name: "X-Api-Token"
+      in: "header"
+      required: true
+      schema:
+        type: "string"
+        example: "7EEF6E23-CBC0-425B-A513-206B71D1F2EC"
+    IfModifiedSince:
+      name: "If-Modified-Since"
+      in: "header"
+      description: "Date of last know change"
+      schema:
+        type: "string"
+        format: "date-time"
+        example: "Wed, 21 Oct 2015 07:28:00 GMT"
+    Gender:
+      name: "gender"
+      in: "path"
+      description: "Gender"
+      schema:
+        $ref: "#/components/schemas/Gender"
+    Name:
+      name: "name"
+      in: "path"
+      description: "ObjectName"
+      schema:
+        $ref: "#/components/schemas/ObjectName"
+    FirstName:
+      name: "firstname"
+      in: "path"
+      description: "ObjectName"
+      schema:
+        $ref: "#/components/schemas/ObjectName"
+    SurName:
+      name: "surname"
+      in: "path"
+      description: "ObjectName"
+      schema:
+        $ref: "#/components/schemas/ObjectName"                
+    Limit:
+      name: "Limit"
+      in: "path"
+      description: "Max results"
+      schema:
+        $ref: "#/components/schemas/Limit"
+
+  #requestBodies:
+  responses:
+    Vocatives:
+      description: "Vocatives"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Vocatives'
+    SurNames:
+      description: "SurNames"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SurNames'
+    FirstNames:
+      description: "FirstNames"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FirstNames'
+    Status:
+      description: "Status"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Status"
+    Ok:
+      description: "Ok"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Ok"
+    Created:
+      description: "Created"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Created"
+    BadRequest:
+      description: "Bad request"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error4xx"
+    NotAuthorized:
+      description: "Not authorized"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error4xx"
+    Forbidden:
+      description: "Forbidden"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error4xx"
+    NotFound:
+      description: "Not found"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error4xx"
+    InternalError:
+      description: "Internal server error"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error500"
+  schemas:
+    Gender:
+      type: "string"
+      enum:
+        - "male"
+        - "female"
+      example: "OK"
+    ObjectId:
+      type: "integer"
+      example: 1234567
+    ObjectName:
+      type: "string"
+      example: "Lhota"
+    Vocative:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+          example: "Jindřich Skupa"
+        vocative:
+          type: "string"
+          example: "Jindřichu Skupo"
+        count:
+          type: "integer"
+          format: "int64"
+          example: 200
+        gender:
+          $ref: "#/components/schemas/Gender"
+    VocativeSingle:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+          example: "Jindřich"
+        vocative:
+          type: "string"
+          example: "Jindřichu"
+        count:
+          type: "integer"
+          format: "int64"
+          example: 200
+        gender:
+          $ref: "#/components/schemas/Gender"
+    FirstName:
+      $ref: "#/components/schemas/VocativeSingle"
+    SurName:
+      $ref: "#/components/schemas/VocativeSingle"
+    SurNames:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/SurName"
+    FirstNames:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/FirstName"
+    Vocatives:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/Vocative"
+    Status:
+      type: "object"
+      properties:
+        status:
+          type: "string"
+          enum:
+            - "OK"
+            - "ERROR"
+          example: "OK"
+        message:
+          type: "string"
+          example: "I'm alive"
+    Ok:
+      type: "object"
+      properties:
+        code:
+          type: "integer"
+          format: "int64"
+          example: "200"
+        result:
+          type: "string"
+    Created:
+      type: "object"
+      properties:
+        code:
+          type: "integer"
+          format: "int64"
+          example: "201"
+        result:
+          type: "string"
+    Error4xx:
+      type: "object"
+      properties:
+        code:
+          type: integer
+          example: 400
+        errorDescription:
+          type: string
+          example: "Error description"
+        errors:
+          type: "array"
+          items:
+            $ref:  "#/components/schemas/Errors"
+          example:
+            - "Error 1"
+            - "Error 2"
+    Errors:
+      type: string
+      enum:
+        - "Error 1"
+        - "Error 2"
+      example: Invalid XML
+    Error500:
+      type: "object"
+      properties:
+        code:
+          type: "integer"
+          format: "int64"
+          example: 500
+        errorDescription:
+          type: "string"
+          example: "Internal Server Error"
+      xml:
+        name: "Error"
