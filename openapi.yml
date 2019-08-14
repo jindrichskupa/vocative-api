@@ -52,7 +52,7 @@ paths:
       tags:
         - "Firstname"
         - "Surname"
-        - default
+        - "Fullname"
 
   /vocative/firstnames:
     get:
@@ -308,6 +308,9 @@ components:
           schema:
             $ref: "#/components/schemas/Error500"
   schemas:
+    Limit:
+      type: integer
+      example: 100
     Gender:
       type: "string"
       enum:
@@ -319,7 +322,7 @@ components:
       example: 1234567
     ObjectName:
       type: "string"
-      example: "Lhota"
+      example: "Jan"
     Vocative:
       type: "object"
       properties:
