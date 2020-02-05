@@ -67,7 +67,7 @@ VOCATIVE_DB_NAME=vocative_db_test ./vocative-api
 
 ### Setup
 
-1. download ziped CSV files
+1. download ziped CSV files from http://www.validace.cz/cim-poslouzime.html
 2. extract .zip files
 3. update paths in `import.sql` script
 4. run `import.sql` script
