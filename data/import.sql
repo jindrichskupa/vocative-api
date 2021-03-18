@@ -39,8 +39,8 @@ UPDATE import_surnames SET gender='female' WHERE gender IS NULL;
 CREATE MATERIALIZED VIEW first_names AS
   SELECT 
     name as name,
-    vocative as vocative,
-    regexp_replace(regexp_replace(regexp_replace(lower(to_ascii(convert_to(import_firstnames.name,'latin2'), 'latin2')), '-', ' '),'\.',' ','g'), '\s+', ' ','g') as name_search,
+    regexp_replace(vocative, ':.+','','g') as vocative,
+    lower(unaccent(name)) as name_search,
     count::int as count,
     gender
   FROM 
@@ -50,8 +50,8 @@ CREATE MATERIALIZED VIEW first_names AS
 CREATE MATERIALIZED VIEW sur_names AS
   SELECT 
     name as name,
-    vocative as vocative,
-    regexp_replace(regexp_replace(regexp_replace(lower(to_ascii(convert_to(import_surnames.name,'latin2'), 'latin2')), '-', ' '),'\.',' ','g'), '\s+', ' ','g') as name_search,
+    regexp_replace(vocative, ':.+','','g') as vocative,
+    lower(unaccent(name)) as name_search,
     count::int as count,
     gender
   FROM 
